@@ -13,26 +13,32 @@ function Starlink() {
     const [paginaAtual, setPaginaAtual] = useState(1);
 
     useEffect(() => {
-        const fetchSatelites = async (pagina) => {
-            const response = await axios.post(
-                'https://api.spacexdata.com/v4/starlink/query',
-                {
-                    "query": {},
-                    "options": {
-                        limit: 100,
-                        page: pagina
-                    }
-                }
-            );
-            console.log(response.data);
-            setTotalDocs(response.data.totalDocs);
-            setSatelites(response.data.docs);
-        }
         fetchSatelites(paginaAtual);
     }, []);
 
     const ocean = [-3.092652536502263, -60.01849591940468]
     const lanche = [-3.1230428200783815, -60.01331785839022]
+
+    const fetchSatelites = async (pagina) => {
+        const response = await axios.post(
+            'https://api.spacexdata.com/v4/starlink/query',
+            {
+                "query": {},
+                "options": {
+                    limit: 100,
+                    page: pagina
+                }
+            }
+        );
+        console.log(response.data);
+        setTotalDocs(response.data.totalDocs);
+        setSatelites(response.data.docs);
+    }
+    const carregarMais = () => {
+        setPaginaAtual(paginaAtual + 1);
+        //Realizar chamada do backend com a pagina a ser carregada
+        fetchSatelites(paginaAtual);
+    };
 
     return (
         <div>
@@ -70,6 +76,7 @@ function Starlink() {
             </MapContainer>
 
             Página atual: {paginaAtual}
+            <button onClick={carregarMais}>Carregar mais</button>
             
         </div>
     )

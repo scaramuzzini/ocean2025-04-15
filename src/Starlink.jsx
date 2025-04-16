@@ -30,9 +30,10 @@ function Starlink() {
                 }
             }
         );
-        console.log(response.data);
+        //console.log(response.data);
         setTotalDocs(response.data.totalDocs);
-        setSatelites(response.data.docs);
+        //setSatelites(response.data.docs);
+        setSatelites((antigos) => [...antigos,...response.data.docs]);
     }
     const carregarMais = () => {
         setPaginaAtual(paginaAtual + 1);

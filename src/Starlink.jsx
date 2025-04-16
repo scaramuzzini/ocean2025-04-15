@@ -12,13 +12,14 @@ function Starlink() {
     const [satelites, setSatelites] = useState([]);
 
     useEffect(() => {
-        const fetchSatelites = async () => {
+        const fetchSatelites = async (pagina) => {
             const response = await axios.post(
                 'https://api.spacexdata.com/v4/starlink/query',
                 {
                     "query": {},
                     "options": {
-                        limit: 100
+                        limit: 100,
+                        page: pagina
                     }
                 }
             );
@@ -26,7 +27,7 @@ function Starlink() {
             setTotalDocs(response.data.totalDocs);
             setSatelites(response.data.docs);
         }
-        fetchSatelites();
+        fetchSatelites(1);
     }, []);
 
     const ocean = [-3.092652536502263, -60.01849591940468]
@@ -50,7 +51,9 @@ function Starlink() {
                         .map((sat) => (
                         <Marker position={[sat.latitude,sat.longitude]}>
                             <Popup>
-                                Nome: {sat.spaceTrack.OBJECT_NAME} <br/>
+                                <h2>Nome: {sat.spaceTrack.OBJECT_NAME} </h2> <br/>
+                                Velocidade: {sat.velocity_kms} <br/>
+                                Data de Lançamento: {sat.spaceTrack.LAUNCH_DATE} <br/>
                             </Popup>
                         </Marker>
                     ))
@@ -64,13 +67,7 @@ function Starlink() {
                     </Popup>
                 </Marker>
             </MapContainer>
-            <ul>
-                {
-                    satelites.map((sat) => (
-                        <li key={sat.id}>{sat.spaceTrack.OBJECT_NAME}</li>
-                    ))
-                }
-            </ul>
+            
         </div>
     )
 }

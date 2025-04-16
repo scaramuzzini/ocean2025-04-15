@@ -30,7 +30,7 @@ function Starlink() {
             <ul>
                 {
                     satelites.map((sat) => (
-                        <li>{sat.spaceTrack.OBJECT_NAME}</li>
+                        <li key={sat.id}>{sat.spaceTrack.OBJECT_NAME}</li>
                     ))
                 }
             </ul>

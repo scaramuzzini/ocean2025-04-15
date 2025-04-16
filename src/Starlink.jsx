@@ -10,6 +10,7 @@ function Starlink() {
 
     const [totalDocs,setTotalDocs] = useState(0);
     const [satelites, setSatelites] = useState([]);
+    const [paginaAtual, setPaginaAtual] = useState(1);
 
     useEffect(() => {
         const fetchSatelites = async (pagina) => {
@@ -27,7 +28,7 @@ function Starlink() {
             setTotalDocs(response.data.totalDocs);
             setSatelites(response.data.docs);
         }
-        fetchSatelites(1);
+        fetchSatelites(paginaAtual);
     }, []);
 
     const ocean = [-3.092652536502263, -60.01849591940468]
@@ -67,6 +68,8 @@ function Starlink() {
                     </Popup>
                 </Marker>
             </MapContainer>
+
+            Página atual: {paginaAtual}
             
         </div>
     )
